@@ -1,5 +1,5 @@
 import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
-import classes from "./Increment.module.css";
+import classes from "./ButtonCounter.module.css";
 
 // тип пропсов обычной кнопки, children в котором храниться название кнопки там уже описан
 type DefaultButtonPropsType = DetailedHTMLProps<
@@ -7,12 +7,12 @@ type DefaultButtonPropsType = DetailedHTMLProps<
   HTMLButtonElement
 >;
 
-type IncrementPropsType = DefaultButtonPropsType & {
+type ButtonCounterPropsType = DefaultButtonPropsType & {
   setCount: () => void;
   disabled?: boolean;
 };
 
-const Increment: React.FC<IncrementPropsType> = ({
+const ButtonCounter: React.FC<ButtonCounterPropsType> = ({
   disabled,
   setCount,
   className,
@@ -32,4 +32,4 @@ const Increment: React.FC<IncrementPropsType> = ({
   );
 };
 
-export default Increment;
+export default ButtonCounter;
