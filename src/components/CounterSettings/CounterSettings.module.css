@@ -1,0 +1,20 @@
+.counter {
+  max-width: 500px;
+  border: 3px solid aqua;
+  border-radius: 10px;
+  margin-right: 50px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border: 3px solid aqua;
+  border-radius: 10px;
+}
+
+.redSpan {
+  color: red;
+}

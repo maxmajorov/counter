@@ -1,5 +1,5 @@
 import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
-import classes from "./ButtonCounter.module.css";
+import classes from "../../components/Buttons/ButtonCounter.module.css";
 
 // тип пропсов обычной кнопки, children в котором храниться название кнопки там уже описан
 type DefaultButtonPropsType = DetailedHTMLProps<
