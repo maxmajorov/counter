@@ -7,37 +7,51 @@ const App = () => {
   const [count, setCount] = useState<number>(0);
   const [maxValue, setMaxValue] = useState<number>(0);
   const [startValue, setStartValue] = useState<number>(0);
-  const [infoMes, setInfoMes] = useState<string>(
-    "enter values and press 'set'"
-  );
+  const [error, setError] = useState<string>("");
 
   const getMaxValueCallback = (maxValue: number) => {
     setMaxValue(maxValue);
+    maxValue === 0 ? setError("enter values and press 'set'") : setError("");
   };
 
   const getStartValueCallback = (startValue: number) => {
     setStartValue(startValue);
-    // setCount(startValue);
+    startValue === 0
+      ? setError("enter values and press 'set'")
+      : startValue < 0
+      ? setError("Incorrect value!")
+      : setError("");
   };
 
   const setStartValueCallback = () => {
     setCount(startValue);
+    // errors();
   };
-  console.log(maxValue, startValue);
+
+  // const errors = () => {
+  //   startValue > maxValue || !startValue || startValue < 0
+  //     ? setError("Incorrect value!")
+  //     : setError("enter values and press 'set'");
+  // };
+
+  console.log(error);
 
   return (
     <div className="inner">
       <CounterSettings
+        error={error}
+        maxValue={maxValue}
+        startValue={startValue}
         setStartValue={setStartValueCallback}
         getMaxValue={getMaxValueCallback}
         getStartValue={getStartValueCallback}
       />
       <Counter
         count={count}
+        error={error}
         setCount={setCount}
         maxValue={maxValue}
         startValue={startValue}
-        infoMes={infoMes}
       />
     </div>
   );

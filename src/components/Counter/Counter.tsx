@@ -6,15 +6,15 @@ type CounterPropsType = {
   count: number;
   maxValue: number;
   startValue: number;
-  infoMes: string;
+  error: string;
   setCount: (count: number) => void;
 };
 
 const Counter: React.FC<CounterPropsType> = ({
   count,
+  error,
   setCount,
   maxValue,
-  infoMes,
   startValue,
 }) => {
   let disabled_1 = false;
@@ -30,8 +30,8 @@ const Counter: React.FC<CounterPropsType> = ({
   };
 
   let counterInfo: string = "";
-  if (count === 0) {
-    counterInfo = infoMes;
+  if (count === 0 || startValue > maxValue) {
+    counterInfo = error;
   } else if (count) {
     counterInfo = count.toString();
   }
