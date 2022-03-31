@@ -8,6 +8,7 @@ type CounterPropsType = {
   startValue: number;
   error: string;
   setCount: (count: number) => void;
+  setStartValues: () => void;
 };
 
 const Counter: React.FC<CounterPropsType> = ({
@@ -17,9 +18,9 @@ const Counter: React.FC<CounterPropsType> = ({
   maxValue,
   startValue,
 }) => {
-  let disabled_1 = false;
-  let disabled_2 = !(count > 0) ? true : false;
-  let numberColor = "";
+  let disabled_1 = count >= maxValue ? true : false; //
+  let disabled_2 = !(count > startValue) ? true : false;
+  let infoColor = "";
 
   const setCountCallback = () => {
     setCount(++count);
@@ -29,21 +30,23 @@ const Counter: React.FC<CounterPropsType> = ({
     setCount(startValue);
   };
 
-  let counterInfo: string = "";
-  if (count === 0 || startValue > maxValue) {
+  let counterInfo: string = !count
+    ? "enter values and press 'set'"
+    : count.toString();
+
+  if (error) {
     counterInfo = error;
-  } else if (count) {
-    counterInfo = count.toString();
+    infoColor = `${classes.redSpan}`;
   }
-  if (count >= maxValue) {
-    numberColor = `${classes.redSpan}`;
-    disabled_1 = true;
+
+  if (count === maxValue) {
+    infoColor = `${classes.redSpan}`;
   }
 
   return (
     <div className={classes.counter}>
       <div className={classes.number}>
-        <span className={numberColor}>{counterInfo}</span>
+        <span className={infoColor}>{counterInfo}</span>
       </div>
       <div className={classes.buttons}>
         <ButtonCounter setCount={setCountCallback} disabled={disabled_1}>

@@ -11,28 +11,16 @@ const App = () => {
 
   const getMaxValueCallback = (maxValue: number) => {
     setMaxValue(maxValue);
-    maxValue === 0 ? setError("enter values and press 'set'") : setError("");
   };
 
   const getStartValueCallback = (startValue: number) => {
     setStartValue(startValue);
-    startValue === 0
-      ? setError("enter values and press 'set'")
-      : startValue < 0
-      ? setError("Incorrect value!")
-      : setError("");
+    console.log(startValue);
   };
 
   const setStartValueCallback = () => {
     setCount(startValue);
-    // errors();
   };
-
-  // const errors = () => {
-  //   startValue > maxValue || !startValue || startValue < 0
-  //     ? setError("Incorrect value!")
-  //     : setError("enter values and press 'set'");
-  // };
 
   console.log(error);
 
@@ -40,6 +28,7 @@ const App = () => {
     <div className="inner">
       <CounterSettings
         error={error}
+        setError={setError}
         maxValue={maxValue}
         startValue={startValue}
         setStartValue={setStartValueCallback}
@@ -52,6 +41,7 @@ const App = () => {
         setCount={setCount}
         maxValue={maxValue}
         startValue={startValue}
+        setStartValues={setStartValueCallback}
       />
     </div>
   );
