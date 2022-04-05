@@ -8,7 +8,6 @@ type CounterPropsType = {
   startValue: number;
   error: string;
   setCount: (count: number) => void;
-  setStartValues: () => void;
 };
 
 const Counter: React.FC<CounterPropsType> = ({
@@ -18,9 +17,10 @@ const Counter: React.FC<CounterPropsType> = ({
   maxValue,
   startValue,
 }) => {
-  let disabled_1 = count >= maxValue ? true : false; //
-  let disabled_2 = !(count > startValue) ? true : false;
-  let infoColor = "";
+  let disabled_1 = error !== "" || count >= maxValue;
+  let disabled_2 = !count;
+  let infoColor: string = "";
+  let counterInfo: string = "";
 
   const setCountCallback = () => {
     setCount(++count);
@@ -30,11 +30,9 @@ const Counter: React.FC<CounterPropsType> = ({
     setCount(startValue);
   };
 
-  let counterInfo: string = !count
-    ? "enter values and press 'set'"
-    : count.toString();
+  counterInfo = error.length === 0 ? count.toString() : error;
 
-  if (error) {
+  if (error === "incorrect values!") {
     counterInfo = error;
     infoColor = `${classes.redSpan}`;
   }

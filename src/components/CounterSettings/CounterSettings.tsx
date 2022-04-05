@@ -7,7 +7,7 @@ type CounterSettingsPropsType = {
   error: string;
   maxValue: number;
   startValue: number;
-  setError: (error: string) => void;
+
   setStartValue: () => void;
   getMaxValue: (value: number) => void;
   getStartValue: (value: number) => void;
@@ -15,7 +15,7 @@ type CounterSettingsPropsType = {
 
 const CounterSettings: React.FC<CounterSettingsPropsType> = ({
   error,
-  setError,
+
   maxValue,
   startValue,
   setStartValue,
@@ -23,18 +23,14 @@ const CounterSettings: React.FC<CounterSettingsPropsType> = ({
   getStartValue,
 }) => {
   let disabledWithoutValues: boolean =
-    maxValue <= 0 || startValue < 0 || error ? true : false;
+    maxValue <= 0 || startValue < 0 || !error ? true : false;
 
   const getMaxValueCallback = (maxValue: number) => {
     getMaxValue(maxValue);
-    maxValue < 0 ? setError("incorrect values!") : setError("");
   };
 
   const getStartValueCallback = (startValue: number) => {
     getStartValue(startValue);
-    startValue < 0 || startValue > maxValue || maxValue === startValue
-      ? setError("incorrect values!")
-      : setError("");
   };
 
   const maxInputError = (): boolean => maxValue === startValue || maxValue < 0;
@@ -44,20 +40,20 @@ const CounterSettings: React.FC<CounterSettingsPropsType> = ({
   return (
     <div className={classes.counter}>
       <InputField
+        title="max value:"
         inputError={maxInputError}
         inputValue={maxValue}
-        title="max value:"
         getCountValues={getMaxValueCallback}
       />
       <InputField
+        title="start value:"
         inputError={startInputError}
         inputValue={startValue}
-        title="start value:"
         getCountValues={getStartValueCallback}
       />
       <div className={classes.buttons}>
         <ButtonCounter
-          setCount={() => setStartValue()}
+          setCount={setStartValue}
           disabled={disabledWithoutValues}
         >
           set

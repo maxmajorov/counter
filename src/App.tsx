@@ -13,22 +13,30 @@ const App = () => {
     const savedStartValue = localStorage.getItem("startValue");
     return savedStartValue ? JSON.parse(savedStartValue) : 0;
   });
-  const [error, setError] = useState<string>("");
 
-  localStorage.setItem("maxValue", JSON.stringify(maxValue));
-  localStorage.setItem("startValue", JSON.stringify(startValue));
+  const [error, setError] = useState<string>("enter values and press 'set'");
 
   const getMaxValueCallback = (maxValue: number) => {
     setMaxValue(maxValue);
+    maxValue < 0 || maxValue === startValue || maxValue < startValue
+      ? setError("incorrect values!")
+      : setError("enter values and press 'set'");
+    setCount(0);
   };
 
   const getStartValueCallback = (startValue: number) => {
     setStartValue(startValue);
-    console.log(startValue);
+    startValue < 0 || startValue > maxValue || maxValue === startValue
+      ? setError("incorrect values!")
+      : setError("enter values and press 'set'");
+    setCount(0);
   };
 
   const setStartValueCallback = () => {
     setCount(startValue);
+    localStorage.setItem("maxValue", JSON.stringify(maxValue));
+    localStorage.setItem("startValue", JSON.stringify(startValue));
+    setError("");
   };
 
   console.log(error);
@@ -37,7 +45,6 @@ const App = () => {
     <div className="inner">
       <CounterSettings
         error={error}
-        setError={setError}
         maxValue={maxValue}
         startValue={startValue}
         setStartValue={setStartValueCallback}
@@ -50,7 +57,6 @@ const App = () => {
         setCount={setCount}
         maxValue={maxValue}
         startValue={startValue}
-        setStartValues={setStartValueCallback}
       />
     </div>
   );

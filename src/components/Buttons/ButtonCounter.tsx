@@ -14,6 +14,7 @@ type ButtonCounterPropsType = DefaultButtonPropsType & {
 
 const ButtonCounter: React.FC<ButtonCounterPropsType> = ({
   disabled,
+
   setCount,
   className,
   ...restProps // все остальные пропсы попадут в объект restProps, там же будет children
