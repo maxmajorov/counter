@@ -8,13 +8,13 @@ type DefaultButtonPropsType = DetailedHTMLProps<
 >;
 
 type ButtonCounterPropsType = DefaultButtonPropsType & {
+  onClick?: () => void;
   setCount: () => void;
   disabled?: boolean;
 };
 
 const ButtonCounter: React.FC<ButtonCounterPropsType> = ({
   disabled,
-
   setCount,
   className,
   ...restProps // все остальные пропсы попадут в объект restProps, там же будет children

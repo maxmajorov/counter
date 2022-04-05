@@ -1,18 +1,19 @@
 .inputField {
   margin: 10px;
-  padding: 30px 10px;
+  padding: 20px 10px;
   background-color: aqua;
   border-radius: 10px;
 }
 
 .inputField span {
-  font-size: 25px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .field {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
 }
 
 .errorInput {

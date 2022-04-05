@@ -1,6 +1,6 @@
 .button {
   display: block;
-  min-width: 200px;
+  min-width: 170px;
   min-height: 40px;
   font-family: "Nunito", sans-serif;
   font-size: 20px;
@@ -36,8 +36,8 @@
 .button::before {
   content: "";
   border-radius: 1000px;
-  min-width: calc(200px + 12px);
-  min-height: calc(40px + 12px);
+  min-width: calc(160px + 12px);
+  min-height: calc(35px + 12px);
   border: 6px solid #00ffcb;
   box-shadow: 0 0 60px rgba(0, 255, 203, 0.64);
   position: absolute;

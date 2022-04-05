@@ -1,7 +1,13 @@
 import React, { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Counter from "./components/Counter/Counter";
+import { CounterFull } from "./components/CounterFull/CounterFull";
+import { CounterInfo } from "./components/CounterFull/CounterInfo/CounterInfo";
+import { Settings } from "./components/CounterFull/Settings/Settings";
 import CounterSettings from "./components/CounterSettings/CounterSettings";
+import Header from "./components/Header/Header";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 const App = () => {
   const [count, setCount] = useState<number>(0);
@@ -42,23 +48,79 @@ const App = () => {
   console.log(error);
 
   return (
-    <div className="inner">
-      <CounterSettings
-        error={error}
-        maxValue={maxValue}
-        startValue={startValue}
-        setStartValue={setStartValueCallback}
-        getMaxValue={getMaxValueCallback}
-        getStartValue={getStartValueCallback}
-      />
-      <Counter
-        count={count}
-        error={error}
-        setCount={setCount}
-        maxValue={maxValue}
-        startValue={startValue}
-      />
-    </div>
+    <BrowserRouter>
+      <div className="container">
+        <Header />
+        <Sidebar />
+        <div className="container-content">
+          <Routes>
+            <Route
+              path="/counter_v1.0.0"
+              element={
+                <div className="counter-container">
+                  <CounterSettings
+                    error={error}
+                    maxValue={maxValue}
+                    startValue={startValue}
+                    setStartValue={setStartValueCallback}
+                    getMaxValue={getMaxValueCallback}
+                    getStartValue={getStartValueCallback}
+                  />
+                  <Counter
+                    count={count}
+                    error={error}
+                    setCount={setCount}
+                    maxValue={maxValue}
+                    startValue={startValue}
+                  />
+                </div>
+              }
+            />
+            <Route
+              path="/counter_v2.0/*"
+              element={
+                <div className="counter-container">
+                  <CounterFull
+                    count={count}
+                    error={error}
+                    maxValue={maxValue}
+                    startValue={startValue}
+                    setCount={setCount}
+                    setStartValue={setStartValueCallback}
+                    getMaxValue={getMaxValueCallback}
+                    getStartValue={getStartValueCallback}
+                  />
+                </div>
+              }
+            >
+              <Route
+                path=""
+                element={
+                  <CounterInfo
+                    count={count}
+                    error={error}
+                    maxValue={maxValue}
+                    startValue={startValue}
+                    setCount={setCount}
+                  />
+                }
+              />
+              <Route
+                path="settings"
+                element={
+                  <Settings
+                    maxValue={maxValue}
+                    startValue={startValue}
+                    getMaxValue={getMaxValueCallback}
+                    getStartValue={getStartValueCallback}
+                  />
+                }
+              />
+            </Route>
+          </Routes>
+        </div>
+      </div>
+    </BrowserRouter>
   );
 };
 
