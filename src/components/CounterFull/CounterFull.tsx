@@ -1,10 +1,7 @@
-import React from "react";
-import { Link, Outlet, Route, Routes } from "react-router-dom";
+import React, { useState } from "react";
 import ButtonCounter from "../Buttons/ButtonCounter";
-import CounterSettings from "../CounterSettings/CounterSettings";
+import InputField from "../CounterSettings/InputField/InputField";
 import classes from "./CounterFull.module.css";
-import { CounterInfo } from "./CounterInfo/CounterInfo";
-import { Settings } from "./Settings/Settings";
 
 type CounterFullPropsType = {
   count: number;
@@ -27,6 +24,9 @@ export const CounterFull: React.FC<CounterFullPropsType> = ({
   getStartValue,
   setStartValue,
 }) => {
+  const [settings, setSettings] = useState<boolean>(true);
+  console.log(settings);
+
   let disabled_1 = error !== "" || count >= maxValue;
   let disabled_2 = !count;
   let disabled_3 = false;
@@ -49,9 +49,18 @@ export const CounterFull: React.FC<CounterFullPropsType> = ({
     getStartValue(startValue);
   };
 
-  const setValues = () => {
+  const setStartValueAndGoBack = () => {
     setStartValue();
+    setSettings(!settings);
   };
+
+  const toogleHandler = () => {
+    setSettings(!settings);
+  };
+
+  const maxInputError = (): boolean => maxValue === startValue || maxValue < 0;
+  const startInputError = (): boolean =>
+    startValue < 0 || startValue > maxValue || maxValue === startValue;
 
   counterInfo = error.length === 0 ? count.toString() : error;
 
@@ -66,20 +75,42 @@ export const CounterFull: React.FC<CounterFullPropsType> = ({
 
   return (
     <div className={classes.counter}>
-      <Outlet />
-      {/* <CounterInfo
-        count={count}
-        error={error}
-        maxValue={maxValue}
-        startValue={startValue}
-        setCount={setCount}
-      /> */}
-      <button>
-        <Link to="">back</Link>
-      </button>
-      <button>
-        <Link to="settings">back</Link>
-      </button>
+      {settings ? (
+        <div className={classes.counter}>
+          <div className={classes.number}>
+            <span className={infoColor}>{counterInfo}</span>
+          </div>
+          <div className={classes.buttons}>
+            <ButtonCounter setCount={setCountCallback} disabled={disabled_1}>
+              INC
+            </ButtonCounter>
+            <ButtonCounter setCount={reset} disabled={disabled_2}>
+              RESET
+            </ButtonCounter>
+            <ButtonCounter setCount={toogleHandler} disabled={disabled_3}>
+              SET
+            </ButtonCounter>
+          </div>
+        </div>
+      ) : (
+        <div className={classes.counter}>
+          <InputField
+            title="max value:"
+            inputError={maxInputError}
+            inputValue={maxValue}
+            getCountValues={getMaxValueCallback}
+          />
+          <InputField
+            title="start value:"
+            inputError={startInputError}
+            inputValue={startValue}
+            getCountValues={getStartValueCallback}
+          />
+          <div className={classes.buttons}>
+            <ButtonCounter setCount={setStartValueAndGoBack}>set</ButtonCounter>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -3,8 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Counter from "./components/Counter/Counter";
 import { CounterFull } from "./components/CounterFull/CounterFull";
-import { CounterInfo } from "./components/CounterFull/CounterInfo/CounterInfo";
-import { Settings } from "./components/CounterFull/Settings/Settings";
 import CounterSettings from "./components/CounterSettings/CounterSettings";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -92,31 +90,7 @@ const App = () => {
                   />
                 </div>
               }
-            >
-              <Route
-                path=""
-                element={
-                  <CounterInfo
-                    count={count}
-                    error={error}
-                    maxValue={maxValue}
-                    startValue={startValue}
-                    setCount={setCount}
-                  />
-                }
-              />
-              <Route
-                path="settings"
-                element={
-                  <Settings
-                    maxValue={maxValue}
-                    startValue={startValue}
-                    getMaxValue={getMaxValueCallback}
-                    getStartValue={getStartValueCallback}
-                  />
-                }
-              />
-            </Route>
+            ></Route>
           </Routes>
         </div>
       </div>

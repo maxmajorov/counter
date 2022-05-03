@@ -8,6 +8,7 @@ type DefaultButtonPropsType = DetailedHTMLProps<
 >;
 
 type ButtonCounterPropsType = DefaultButtonPropsType & {
+  toogle?: () => void;
   onClick?: () => void;
   setCount: () => void;
   disabled?: boolean;
@@ -15,6 +16,7 @@ type ButtonCounterPropsType = DefaultButtonPropsType & {
 
 const ButtonCounter: React.FC<ButtonCounterPropsType> = ({
   disabled,
+  toogle,
   setCount,
   className,
   ...restProps // все остальные пропсы попадут в объект restProps, там же будет children
