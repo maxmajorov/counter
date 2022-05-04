@@ -12,8 +12,14 @@ import { CounterSettings } from "../CounterSettings/CounterSettings";
 import classes from "./CounterFull.module.css";
 
 export const CounterFull: React.FC = () => {
-  const [maxValue, setMaxValue] = useState<number>(0);
-  const [startValue, setStartValue] = useState<number>(0);
+  const [maxValue, setMaxValue] = useState<number>(() => {
+    const savedMaxValue = localStorage.getItem("maxValue");
+    return savedMaxValue ? JSON.parse(savedMaxValue) : 0;
+  });
+  const [startValue, setStartValue] = useState<number>(() => {
+    const savedStartValue = localStorage.getItem("startValue");
+    return savedStartValue ? JSON.parse(savedStartValue) : 0;
+  });
   const [error, setError] = useState<string>("enter values and press 'set'");
   const [settings, setSettings] = useState<boolean>(true);
 
