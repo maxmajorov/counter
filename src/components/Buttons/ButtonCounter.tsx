@@ -9,7 +9,6 @@ type DefaultButtonPropsType = DetailedHTMLProps<
 
 type ButtonCounterPropsType = DefaultButtonPropsType & {
   toogle?: () => void;
-  onClick?: () => void;
   setCount: () => void;
   disabled?: boolean;
 };
@@ -28,7 +27,7 @@ const ButtonCounter: React.FC<ButtonCounterPropsType> = ({
   return (
     <button
       disabled={disabled}
-      onClick={setCount}
+      onClick={() => setCount()}
       className={finalClassName}
       {...restProps} // отдаём кнопке остальные пропсы если они есть (children там внутри)
     />

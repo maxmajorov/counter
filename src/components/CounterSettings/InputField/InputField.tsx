@@ -3,19 +3,19 @@ import classes from "./InputField.module.css";
 
 type InputFieldPropsType = {
   title: string;
-  inputValue: number;
+  value: number;
   inputError: () => boolean;
-  getCountValues: (value: number) => void;
+  setCountValues: (value: number) => void;
 };
 
 const InputField: React.FC<InputFieldPropsType> = ({
   title,
-  inputValue,
+  value,
   inputError,
-  getCountValues,
+  setCountValues,
 }) => {
   const inputValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    getCountValues(+e.currentTarget.value);
+    setCountValues(+e.currentTarget.value);
   };
 
   const finalInputClassName = `${classes.input} ${classes.input_invalid} ${
@@ -28,7 +28,7 @@ const InputField: React.FC<InputFieldPropsType> = ({
         <span>{title}</span>
         <input
           type={"number"}
-          value={inputValue}
+          value={value}
           className={finalInputClassName}
           onChange={inputValueHandler}
         ></input>

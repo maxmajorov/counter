@@ -1,75 +1,74 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import {
+  incrementAC,
+  resetCounterAC,
+  setValuesAC,
+} from "../../actions/counter-actions";
+import { AppStateType } from "../../redux/redux-store";
 import ButtonCounter from "../Buttons/ButtonCounter";
-import InputField from "../CounterSettings/InputField/InputField";
+import { CounterSettings } from "../CounterSettings/CounterSettings";
 import classes from "./CounterFull.module.css";
 
-type CounterFullPropsType = {
-  count: number;
-  maxValue: number;
-  startValue: number;
-  error: string;
-  setCount: (count: number) => void;
-  setStartValue: () => void;
-  getMaxValue: (value: number) => void;
-  getStartValue: (value: number) => void;
-};
-
-export const CounterFull: React.FC<CounterFullPropsType> = ({
-  count,
-  error,
-  setCount,
-  maxValue,
-  startValue,
-  getMaxValue,
-  getStartValue,
-  setStartValue,
-}) => {
+export const CounterFull: React.FC = () => {
+  const [maxValue, setMaxValue] = useState<number>(0);
+  const [startValue, setStartValue] = useState<number>(0);
+  const [error, setError] = useState<string>("enter values and press 'set'");
   const [settings, setSettings] = useState<boolean>(true);
-  console.log(settings);
 
-  let disabled_1 = error !== "" || count >= maxValue;
-  let disabled_2 = !count;
-  let disabled_3 = false;
-  let infoColor: string = "";
-  let counterInfo: string = "";
+  const counterState = useSelector(
+    (state: AppStateType) => state.counterReducer
+  );
+  const dispatch = useDispatch();
 
-  const setCountCallback = () => {
-    setCount(++count);
-  };
-
-  const reset = () => {
-    setCount(startValue);
+  const setValuesCallback = (startValue: number, maxValue: number) => {
+    dispatch(setValuesAC(startValue, maxValue));
+    setError("");
+    setSettings(!settings);
   };
 
   const getMaxValueCallback = (maxValue: number) => {
-    getMaxValue(maxValue);
+    setMaxValue(maxValue);
+    maxValue < 0 || maxValue === startValue || maxValue < startValue
+      ? setError("incorrect values!")
+      : setError("enter values and press 'set'");
   };
 
   const getStartValueCallback = (startValue: number) => {
-    getStartValue(startValue);
+    setStartValue(startValue);
+    startValue < 0 || startValue > maxValue || maxValue === startValue
+      ? setError("incorrect values!")
+      : setError("enter values and press 'set'");
   };
 
-  const setStartValueAndGoBack = () => {
-    setStartValue();
-    setSettings(!settings);
+  const incrementCounterCallback = () => {
+    dispatch(incrementAC());
   };
+
+  const resetCounterCallback = () => {
+    dispatch(resetCounterAC(startValue));
+  };
+
+  let disabled_1 =
+    error !== "" || counterState.counter >= counterState.maxValue;
+  let disabled_2 = !counterState.counter;
+  let disabled_3 = false;
+  let infoColor: string = "";
+  let counterInfo: string = "";
 
   const toogleHandler = () => {
     setSettings(!settings);
   };
 
-  const maxInputError = (): boolean => maxValue === startValue || maxValue < 0;
-  const startInputError = (): boolean =>
-    startValue < 0 || startValue > maxValue || maxValue === startValue;
-
-  counterInfo = error.length === 0 ? count.toString() : error;
+  counterInfo = error.length === 0 ? counterState.counter.toString() : error;
 
   if (error === "incorrect values!") {
     counterInfo = error;
     infoColor = `${classes.redSpan}`;
   }
 
-  if (count === maxValue) {
+  if (counterState.counter === counterState.maxValue) {
     infoColor = `${classes.redSpan}`;
   }
 
@@ -81,10 +80,16 @@ export const CounterFull: React.FC<CounterFullPropsType> = ({
             <span className={infoColor}>{counterInfo}</span>
           </div>
           <div className={classes.buttons}>
-            <ButtonCounter setCount={setCountCallback} disabled={disabled_1}>
+            <ButtonCounter
+              setCount={incrementCounterCallback}
+              disabled={disabled_1}
+            >
               INC
             </ButtonCounter>
-            <ButtonCounter setCount={reset} disabled={disabled_2}>
+            <ButtonCounter
+              setCount={resetCounterCallback}
+              disabled={disabled_2}
+            >
               RESET
             </ButtonCounter>
             <ButtonCounter setCount={toogleHandler} disabled={disabled_3}>
@@ -93,23 +98,13 @@ export const CounterFull: React.FC<CounterFullPropsType> = ({
           </div>
         </div>
       ) : (
-        <div className={classes.counter}>
-          <InputField
-            title="max value:"
-            inputError={maxInputError}
-            inputValue={maxValue}
-            getCountValues={getMaxValueCallback}
-          />
-          <InputField
-            title="start value:"
-            inputError={startInputError}
-            inputValue={startValue}
-            getCountValues={getStartValueCallback}
-          />
-          <div className={classes.buttons}>
-            <ButtonCounter setCount={setStartValueAndGoBack}>set</ButtonCounter>
-          </div>
-        </div>
+        <CounterSettings
+          maxValue={maxValue}
+          startValue={startValue}
+          setValues={setValuesCallback}
+          getMaxValue={getMaxValueCallback}
+          getStartValue={getStartValueCallback}
+        />
       )}
     </div>
   );

@@ -4,32 +4,34 @@ import classes from "./CounterSettings.module.css";
 import InputField from "./InputField/InputField";
 
 type CounterSettingsPropsType = {
-  error: string;
   maxValue: number;
   startValue: number;
-
-  setStartValue: () => void;
-  getMaxValue: (value: number) => void;
-  getStartValue: (value: number) => void;
+  getMaxValue: (maxValue: number) => void;
+  getStartValue: (startValue: number) => void;
+  setValues: (startValue: number, maxValue: number) => void;
 };
 
-const CounterSettings: React.FC<CounterSettingsPropsType> = ({
-  error,
-
+export const CounterSettings: React.FC<CounterSettingsPropsType> = ({
   maxValue,
   startValue,
-  setStartValue,
   getMaxValue,
   getStartValue,
+  setValues,
 }) => {
   let disabledWithoutValues: boolean =
-    maxValue <= 0 || startValue < 0 || !error ? true : false;
+    maxValue <= 0 || startValue < 0 || startValue >= maxValue ? true : false;
 
-  const getMaxValueCallback = (maxValue: number) => {
+  // === Callbacks =====
+
+  const setValuesCallback = () => {
+    setValues(startValue, maxValue);
+  };
+
+  const setMaxValueCallback = (maxValue: number) => {
     getMaxValue(maxValue);
   };
 
-  const getStartValueCallback = (startValue: number) => {
+  const setStartValueCallback = (startValue: number) => {
     getStartValue(startValue);
   };
 
@@ -41,19 +43,19 @@ const CounterSettings: React.FC<CounterSettingsPropsType> = ({
     <div className={classes.counter}>
       <InputField
         title="max value:"
+        value={maxValue}
         inputError={maxInputError}
-        inputValue={maxValue}
-        getCountValues={getMaxValueCallback}
+        setCountValues={setMaxValueCallback}
       />
       <InputField
         title="start value:"
+        value={startValue}
         inputError={startInputError}
-        inputValue={startValue}
-        getCountValues={getStartValueCallback}
+        setCountValues={setStartValueCallback}
       />
       <div className={classes.buttons}>
         <ButtonCounter
-          setCount={setStartValue}
+          setCount={setValuesCallback}
           disabled={disabledWithoutValues}
         >
           set
@@ -62,5 +64,3 @@ const CounterSettings: React.FC<CounterSettingsPropsType> = ({
     </div>
   );
 };
-
-export default CounterSettings;
