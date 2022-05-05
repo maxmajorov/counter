@@ -16,20 +16,14 @@ export const CounterContainer = () => {
   );
   const dispatch = useDispatch();
 
-  const [maxValue, setMaxValue] = useState<number>(() => {
-    const savedMaxValue = localStorage.getItem("maxValue");
-    return savedMaxValue ? JSON.parse(savedMaxValue) : 0;
-  });
-  const [startValue, setStartValue] = useState<number>(() => {
-    const savedStartValue = localStorage.getItem("startValue");
-    return savedStartValue ? JSON.parse(savedStartValue) : 0;
-  });
+  const [maxValue, setMaxValue] = useState<number>(counterState.maxValue); //беру из localStore
+  const [startValue, setStartValue] = useState<number>(counterState.startValue);
   const [error, setError] = useState<string>("enter values and press 'set'");
 
   // ====== save in localStarage ======
 
-  localStorage.setItem("maxValue", JSON.stringify(maxValue));
-  localStorage.setItem("startValue", JSON.stringify(startValue));
+  // localStorage.setItem("maxValue", JSON.stringify(maxValue));
+  // localStorage.setItem("startValue", JSON.stringify(startValue));
 
   const setValuesCallback = (startValue: number, maxValue: number) => {
     dispatch(setValuesAC(startValue, maxValue));

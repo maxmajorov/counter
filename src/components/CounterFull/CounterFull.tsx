@@ -12,21 +12,28 @@ import { CounterSettings } from "../CounterSettings/CounterSettings";
 import classes from "./CounterFull.module.css";
 
 export const CounterFull: React.FC = () => {
-  const [maxValue, setMaxValue] = useState<number>(() => {
-    const savedMaxValue = localStorage.getItem("maxValue");
-    return savedMaxValue ? JSON.parse(savedMaxValue) : 0;
-  });
-  const [startValue, setStartValue] = useState<number>(() => {
-    const savedStartValue = localStorage.getItem("startValue");
-    return savedStartValue ? JSON.parse(savedStartValue) : 0;
-  });
-  const [error, setError] = useState<string>("enter values and press 'set'");
-  const [settings, setSettings] = useState<boolean>(true);
-
   const counterState = useSelector(
     (state: AppStateType) => state.counterReducer
   );
   const dispatch = useDispatch();
+
+  const [maxValue, setMaxValue] = useState<number>(
+    counterState.maxValue
+    //   () => {
+    //   const savedMaxValue = localStorage.getItem("maxValue");
+    //   return savedMaxValue ? JSON.parse(savedMaxValue) : 0;
+    // }
+  );
+
+  const [startValue, setStartValue] = useState<number>(
+    counterState.startValue
+    //   () => {
+    //   const savedStartValue = localStorage.getItem("startValue");
+    //   return savedStartValue ? JSON.parse(savedStartValue) : 0;
+    // }
+  );
+  const [error, setError] = useState<string>("enter values and press 'set'");
+  const [settings, setSettings] = useState<boolean>(true);
 
   const setValuesCallback = (startValue: number, maxValue: number) => {
     dispatch(setValuesAC(startValue, maxValue));
